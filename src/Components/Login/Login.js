@@ -1,4 +1,5 @@
 import "./Login.css";
+import { Link } from "react-router-dom";
 export default function Login(){
 
     return   <div className="container">
@@ -10,7 +11,7 @@ export default function Login(){
           </div>
          
           <div className="login-text">
-            Are you a new member? <span><a href="../Sign_Up/Sign_Up.html" style={{color: '#2190FF'}}> Sign Up Here</a></span>
+            Are you a new member? <span><Link to="/signup" style={{color: '#2190FF'}}> Sign Up Here</Link></span>
           </div>
           <br />
         
