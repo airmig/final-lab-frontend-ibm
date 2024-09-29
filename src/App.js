@@ -10,7 +10,12 @@ import Navbar from './Components/Navbar/Navbar';
 import Landing_Page from './Components/Landing_Page/LandingPage';
 import SignUp from './Components/Sign_Up/SIgn_Up';
 import Login from './Components/Login/Login'
-
+import InstantConsultation from './Components/InstantConsultationBooking/InstantConsultation'
+import Notification from './Components/Notification/Notification';
+import BookingConsultation from './Components/BookingConsultation';
+import ReviewForm from './Components/RevieForm/ReviewForm';
+import ProfileForm from './Components/ProfileCard/ProfileForm';
+import ReportsLayout from './Components/ReportsLayout/ReportsLayout';
 // Function component for the main App
 function App() {
 
@@ -28,7 +33,13 @@ function App() {
             <Route path="/" element={<Landing_Page/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/signup" element={<SignUp/>}/>
+            <Route path="/instant-consultation" element={<InstantConsultation />} />
+            <Route path="/appointments" element={<BookingConsultation />} />
+            <Route path="/reviews" element={<ReviewForm/>} />
+            <Route path="/profile" element={<ProfileForm/>} />
+            <Route path="/reports" element={<ReportsLayout/>}/>
           </Routes>
+          <Notification/>
         </BrowserRouter>
     </div>
   );

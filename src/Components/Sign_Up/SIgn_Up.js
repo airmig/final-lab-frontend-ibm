@@ -2,7 +2,7 @@ import React from "react";
 import "./Sign_Up.css";
 import { API_URL } from "../../config";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef } from "react";
 export default function SignUp(){
 
       // State variables using useState hook
@@ -13,8 +13,41 @@ export default function SignUp(){
       const [showerr, setShowerr] = useState(''); // State to show error messages
       const navigate = useNavigate(); // Navigation hook from react-router
       // Function to handle form submission
+
+      function isValidEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+      }
+
+      function validateFields(){
+        console.log('validemail', isValidEmail(email))
+        if(name.length < 4){
+            alert('Name must be at least 4 characters');
+            return true;
+        }
+        else if(!isValidEmail(email)){
+            alert('Email is not valid. Enter a valid email');
+            return true;
+        }
+        else if(phone.length != 10){
+            alert('A validation requirement from StayHealthy Inc. is to ensure the user enters only 10 digits for the phone number.');
+            return true;
+        }
+        else if(password.length < 8){
+            alert('A validation requirement from StayHealthy Inc. is to ensure the user enters password greater than 8 digits');
+            return true;
+        }
+        else {
+            return false;
+        }
+      }
+
       const register = async (e) => {
           e.preventDefault(); // Prevent default form submission
+          let validFields = validateFields();
+          console.log('validFields', validFields)
+          if(!validFields){
+            console.log('calling api')
           // API Call to register user
           const response = await fetch(`${API_URL}/api/auth/register`, {
               method: "POST",
@@ -29,6 +62,7 @@ export default function SignUp(){
               }),
           });
           const json = await response.json(); // Parse the response JSON
+          console.log('json', json)
           if (json.authtoken) {
               // Store user data in session storage
               sessionStorage.setItem("auth-token", json.authtoken);
@@ -42,48 +76,48 @@ export default function SignUp(){
               if (json.errors) {
                   for (const error of json.errors) {
                       setShowerr(error.msg); // Show error messages
-                      console.log(error.msg)
                   }
               } else {
                   setShowerr(json.error);
               }
           }
+      }
       };
 
-    return  <><div class="container" style={{marginTop: '5%'}}>
-    <div class="signup-grid"> 
-        <div class="signup-text">
+    return  <><div className="container" style={{marginTop: '5%'}}>
+    <div className="signup-grid"> 
+        <div className="signup-text">
             <h1>Sign Up</h1>
         </div>
-        <div class="signup-text1" style={{textAlign: 'left'}}> 
+        <div className="signup-text1" style={{textAlign: 'left'}}> 
             Already a member? <span><Link to='/login' style={{color: '#2190FF'}}> Login</Link></span>
         </div>
-        <div class="signup-form"> 
+        <div className="signup-form"> 
             <form onSubmit={register}>
 
-                <div class="form-group"> 
-                    <label for="name">Name</label> 
-                    <input value={name} onChange={(e) => setName(e.target.value)} type="text" name="name" id="name" required class="form-control" placeholder="Enter your name" aria-describedby="helpId" /> 
+                <div className="form-group"> 
+                    <label htmlFor="name">Name</label> 
+                    <input value={name} onChange={(e) => setName(e.target.value)} type="text" name="name" id="name" required className="form-control" placeholder="Enter your name" aria-describedby="helpId" /> 
                     {showerr && <div className="err" style={{ color: 'red' }}>{showerr}</div>}
                 </div>
 
-                <div class="form-group"> 
-                    <label for="phone">Phone</label> 
-                    <input value={phone} onChange={(e)=> setPhone(e.target.value)} type="tel" name="phone" id="phone" required class="form-control" placeholder="Enter your phone number" aria-describedby="helpId" /> 
+                <div className="form-group"> 
+                    <label htmlFor="phone">Phone</label> 
+                    <input value={phone} onChange={(e)=> setPhone(e.target.value)} type="tel" name="phone" id="phone" required className="form-control" placeholder="Enter your phone number" aria-describedby="helpId" /> 
                 </div>
 
-                <div class="form-group">
-                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" name="email" id="email" className="form-control" placeholder="Enter your email" aria-describedby="helpId" />
+                <div className="form-group">
+                <input required value={email} onChange={(e) => setEmail(e.target.value)} type="email" name="email" id="email" className="form-control" placeholder="Enter your email" aria-describedby="helpId" />
                             {showerr && <div className="err" style={{ color: 'red' }}>{showerr}</div>}              </div>
-                <div class="form-group">
-                    <label for="password">Password</label> 
-                    <input value={password} onChange={(e)=> setPassword(e.target.value)} name="password" id="password" required class="form-control" placeholder="Enter your password" aria-describedby="helpId" /> 
+                <div className="form-group">
+                    <label htmlFor="password">Password</label> 
+                    <input value={password} onChange={(e)=> setPassword(e.target.value)} name="password" id="password" required className="form-control" placeholder="Enter your password" aria-describedby="helpId" /> 
                     {showerr && <div className="err" style={{ color: 'red' }}>{showerr}</div>}
                 </div>
 
-                <div class="btn-group"> 
-                    <button type="submit" class="btn btn-primary mb-2 mr-1 waves-effect waves-light">Submit</button> 
-                    <button type="reset" class="btn btn-danger mb-2 waves-effect waves-light">Reset</button>
+                <div className="btn-group"> 
+                    <button type="submit" className="btn btn-primary mb-2 mr-1 waves-effect waves-light">Submit</button> 
+                    <button type="reset" className="btn btn-danger mb-2 waves-effect waves-light">Reset</button>
                 </div>
             </form>
         </div>

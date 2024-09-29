@@ -21,9 +21,32 @@ const Login = () => {
     }
   }, []);
 
+  function isValidEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+
+  function validateFields(){
+    console.log('validemail', isValidEmail(email))
+   if(!isValidEmail(email)){
+        alert('Email is not valid. Enter a valid email');
+        return true;
+    }
+    else if(password.length < 8){
+        alert('A validation requirement from StayHealthy Inc. is to ensure the user enters password greater than 8 digits');
+        return true;
+    }
+    else {
+        return false;
+    }
+  }
+
+
   // Function to handle login form submission
   const login = async (e) => {
     e.preventDefault();
+    let validFields = validateFields();
+    if (!validFields){
     // Send a POST request to the login API endpoint
     const res = await fetch(`${API_URL}/api/auth/login`, {
       method: "POST",
@@ -56,6 +79,7 @@ const Login = () => {
         alert(json.error);
       }
     }
+  }
   };
 
   return (

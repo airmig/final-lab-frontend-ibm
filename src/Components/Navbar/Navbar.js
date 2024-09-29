@@ -61,13 +61,24 @@ const Navbar = () => {
           <Link to="/">Home</Link>
         </li>
         <li className="link">
-          <Link to="/search/doctors">Appointments</Link>
+          <Link to="/appointments">Appointments</Link>
         </li>
         <li className="link">
           <Link to="/healthblog">Health Blog</Link>
         </li>
         <li className="link">
          <Link to="/reviews">Reviews</Link>
+        </li>
+        <li>
+        {isLoggedIn && (<>
+                       <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                       Welcome, {username}
+                   </a>
+                   <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                       <li><Link to="/profile">Your Profile</Link></li>
+                       <li><Link to="/reports">Your Reports</Link></li>
+                   </ul></>
+      )}
         </li>
         {isLoggedIn?(
           <>
